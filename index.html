@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<style>
+:root{
+  --max: 980px;
+
+  /* darker / warmer background */
+  --bg: #e3ddd4;
+
+  /* light beige cards (instead of white) */
+  --card: #fbf7f1;
+
+  --text: #1f2937;
+  --muted: #4b5563;
+  --border: rgba(17,24,39,.14);
+  --shadow: 0 10px 24px rgba(17,24,39,.10);
+  --shadow2: 0 6px 14px rgba(17,24,39,.10);
+  --radius: 16px;
+  --nav-h: 58px;
+}
+
+body{
+  margin: 0;
+  color: var(--text);
+  background: radial-gradient(1200px 700px at 10% -10%, #f5f0e7 0%, var(--bg) 55%, var(--bg) 100%);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  line-height: 1.6;
+}
+
+  a{ color: inherit; }
+  a:hover{ opacity: .9; }
+
+  .wrap{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 2.5rem 1rem 2.5rem;
+  }
+
+  /* HERO */
+  .hero{
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem 1.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* subtle accent glow */
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset: -40% -20% auto auto;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle at center, rgba(17,24,39,.10), transparent 60%);
+    transform: rotate(18deg);
+    pointer-events:none;
+  }
+
+  .hero h1{
+    margin: 0 0 .25rem 0;
+    font-size: clamp(1.9rem, 4vw, 2.4rem);
+    letter-spacing: -0.02em;
+  }
+
+  /* HERO LAYOUT */
+  .hero-row{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  .hero-right{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-right: .5rem;
+  }
+
+  .hero-right::before{
+    content: "";
+    position: absolute;
+    width: 195px;
+    height: 195px;
+    background: rgba(17,24,39,.045);
+    border-radius: 26px;
+    transform: translate(12px, 12px);
+    z-index: -1;
+  }
+
+  .avatar{
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 20px;
+
+    border: 1px solid rgba(17,24,39,.12);
+
+    box-shadow:
+      0 10px 24px rgba(17,24,39,.14),
+      inset 0 0 0 1px rgba(255,255,255,.35);
+
+    background: var(--card);
+  }
+
+  @media (max-width: 720px){
+    .hero-row{
+      grid-template-columns: 1fr;
+    }
+
+    .hero-right{
+      justify-content: flex-start;
+      margin-top: 1rem;
+    }
+  }
+
+  .subtitle{
+    margin: 0.15rem 0 1.1rem 0;
+    font-size: 1.05rem;
+    color: var(--muted);
+  }
+
+  /* SOCIAL */
+  .social{
+    display:flex;
+    flex-wrap: wrap;
+    gap: .35rem .75rem;
+    margin-bottom: 1.1rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .social a{
+    text-decoration: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    border-radius: 0;
+    display: inline-block;
+  }
+
+  .social a:hover{
+    text-decoration: none; /* prevent underline on the whole link */
+  }
+
+  .social a:hover span{
+    text-decoration: underline; /* underline only the text */
+  }
+
+  .social a::after{
+    content: "·";
+    margin-left: .75rem;
+    color: rgba(17,24,39,.35);
+  }
+
+  .social a:last-child::after{
+    content: "";
+    margin: 0;
+  }
+
+  /* NAV BUTTONS */
+  .nav{
+    display:flex;
+    gap:.55rem;
+    flex-wrap: wrap;
+    margin: 0; /* hero already has padding */
+  }
+
+  .nav a{
+    text-decoration:none;
+    font-weight: 700;
+    padding: .55rem .85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(17,24,39,.16);
+    background: rgba(17,24,39,.04);
+    transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+  }
+
+  .nav a:hover{
+    transform: translateY(-1px);
+    background: rgba(17,24,39,.07);
+    box-shadow: var(--shadow2);
+  }
+
+  /* TOP NAVIGATION */
+.top-nav{
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(206,198,188,.92); /* darker than before */
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(17,24,39,.18);
+}
+
+.top-nav-inner{
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: .65rem 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-name{
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.nav-links{
+  display: flex;
+  gap: .9rem;
+}
+
+.nav-links a{
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--muted);
+  padding: .25rem 0;
+  position: relative;
+}
+
+.nav-links a::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: currentColor;
+  transition: width .15s ease;
+}
+
+.nav-links a:hover{
+  color: var(--text);
+}
+
+.nav-links a:hover::after{
+  width: 100%;
+}
+
+  /* SECTIONS AS CARDS */
+  section{
+    margin-top: 1.25rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 18px rgba(17,24,39,.06);
+    padding: 1.4rem 1.5rem;
+    scroll-margin-top: calc(var(--nav-h) + 14px);
+  }
+
+  section h2{
+    margin: 0 0 .8rem 0;
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
+  }
+
+  /* ITEMS */
+  .item{ margin: 0 0 1.05rem 0; }
+  .item:last-child{ margin-bottom: 0; }
+
+  .item .top{
+    display:flex;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+    align-items: baseline;
+  }
+
+  .item .role{
+    font-weight: 800;
+  }
+
+  .item .meta{
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .item.project .top{
+    gap: .35rem .6rem;
+  }
+
+  .item.project .meta{
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .item.project .meta::before{
+    content: "— ";
+    color: rgba(17,24,39,.55);
+  }
+
+  ul{
+    margin: .6rem 0 0 1.15rem;
+    padding: 0;
+  }
+
+  li{ margin: .28rem 0; }
+
+  /* FOOTER */
+  footer{
+    margin-top: 1.25rem;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  /* Optional: nicer selection highlight */
+  ::selection { background: rgba(17,24,39,.12); }
+</style>
+
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <div class="hero-row">
+    <div class="hero-left">
+      <h1>Abdalla Mohamed</h1>
+      <p class="subtitle">
+        PhD Student at The University of Texas at Arlington
+      </p>
+
+      <div class="social">
+        <a href="https://github.com/abdallam1007" target="_blank" rel="noopener"><span>GitHub</span></a>
+        <a href="https://www.linkedin.com/in/abdalla-hassan-mohamed/" target="_blank" rel="noopener"><span>LinkedIn</span></a>
+        <a href="mailto:axm0993@mavs.uta.edu"><span>University Email</span></a>
+        <a href="mailto:abdallam.personal@gmail.com"><span>Personal Email</span></a>
+        <a href="/assets/AbdallaMohamed.pdf"><span>Resume</span></a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <img
+        src="/assets/personal_photo.JPG"
+        alt="Abdalla Mohamed"
+        class="avatar"
+      />
+    </div>
+  </div>
+</header>
+
+  <section id="about">
+    <h2>About</h2>
+    <p>
+      I am a PhD student in Computer Science at the University of Texas at Arlington,
+       working in the area of relational deep learning and relational foundation models.
+      My research focuses on developing learning models that operate over structured, relational data
+    </p>
+  </section>
+
+  <section id="education">
+    <h2>Education</h2>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">PhD in Computer Science</span>
+        <span class="meta">University of Texas at Arlington · Aug 2025 – Present</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">B.Sc. in Computer Science</span>
+        <span class="meta">Carnegie Mellon University · May 2023 · GPA 3.5/4.0</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <h2>Work Experience</h2>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">Software Engineer</span>
+        <span class="meta">Snoonu · Apr 2023 – Mar 2024</span>
+      </div>
+      <ul>
+        <li>Built backend services in C#/.NET for production systems.</li>
+        <li>Delivered standalone SaaS components and improved performance through debugging and optimization.</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">Full Stack Engineer</span>
+        <span class="meta">Avey · Mar 2024 – Nov 2024</span>
+      </div>
+      <ul>
+        <li>Built and maintained Django-based web apps with REST APIs and React frontends.</li>
+        <li>Improved reliability by diagnosing and resolving production issues during on-call rotations.</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">Research Assistant (Outreach / Robotics)</span>
+        <span class="meta">CMU-Q · HBJ Outreach Center · Apr 2025 – Aug 2025</span>
+      </div>
+      <ul>
+        <li>Designed and delivered hands-on CS and robotics workshops for audiences from elementary students to working professionals.</li>
+        <li>Developed curricula and technical materials covering programming, algorithms, and robotics systems.</li>
+        <li>Diagnosed and fixed robotics hardware/software issues (sensors, control, integration) to ensure reliable lab sessions.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">TCP Congestion Control over UDP (C)</span>
+        <span>Implemented in-order delivery, sliding window, and congestion control; used it in a BitTorrent-style P2P file sharing app.</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">Elasticity & Horizontal Scaling on AWS (Java)</span>
+        <span>Provisioned/deprovisioned resources via cloud APIs; deployed load balancing and auto scaling; designed QoS vs cost policies.</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">Distributed File System (Java)</span>
+        <span>Built an RMI-based distributed file system with concurrency control (reader/writer locks) and fairness handling.</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">Parallel K-means on MPI and MapReduce (Java/C)</span>
+        <span>Implemented parallel K-means using MPI and Hadoop MapReduce and compared scalability across cluster configurations</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="top">
+        <span class="role">Video CDN + HTTP Proxy (C)</span>
+        <span>Added adaptive bitrate selection using throughput estimation; implemented DNS load balancing (round-robin + geo-distance).</span>
+      </div>
+    </div>
+  </section>
+
+  <footer style="padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,.08); margin-top: 2rem; opacity:.8;">
+    <small>© <span id="y"></span> Abdalla Mohamed</small>
+  </footer>
+</div>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+</script>
